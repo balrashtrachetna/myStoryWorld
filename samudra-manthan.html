@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Welcome Story Page</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #fffaf4;
+  text-align: center;
+  color: #6b4b34;
+  overflow-x: hidden;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ===== BANNER ===== */
+.banner-video {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+}
+.banner-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.banner-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,243,217,0.95);
+  color: #6b4b34;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* ===== STORY VIDEO ===== */
+
+#storyVideo {
+  width: 100%;
+  background: black;
+}
+
+
+#player-wrapper.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  margin: 0;
+  background: black;
+  z-index: 9999;
+}
+
+#player-wrapper.fullscreen video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain; /* or cover if you want */
+}
+
+
+/* ===== QUESTION OVERLAY ===== */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 20000;
+}
+ #question-box {
+      background: rgba(255,255,255,0.95);
+      padding: 22px;
+      border-radius: 14px;
+      border: 3px solid #ff8c00;
+      width: 360px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
+.opt-btn {
+  padding: 10px 18px;
+  margin: 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#wrong-msg {
+  color: red;
+  font-weight: bold;
+  display: none;
+}
+  #kidMessage {
+  position: fixed;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff3d9;
+  color: #6b4b34;
+  padding: 12px 20px;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 40000;
+}
+
+/* ===== SCORE BOARD ===== */
+#scoreBoard {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 30000;
+}
+
+ .avatar {
+      width: 150px;
+      border-radius: 50%;
+      border: 6px solid #fff6ea;
+      box-shadow: 0 6px 20px rgba(107,61,35,0.12);
+    }
+
+video::-webkit-media-controls-fullscreen-button {
+  display: none;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.avatar {
+  width: 220px;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.hero-text {
+  max-width: 600px;
+  text-align: left;
+  font-size: 18px;
+  line-height: 1.6;
+}
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .avatar {
+    width: 180px;
+  }
+
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<!-- 🎬 BANNER -->
+<div class="banner-video">
+  <div class="banner-hint">👇 Scroll down to start the story 👇</div>
+  <video autoplay muted loop playsinline>
+    <source src="welcome_banner.mp4" type="video/mp4"/>
+  </video>
+</div>
+
+<h1>Hey Kid, Welcome to Your First Story!</h1>
+
+<div class="hero">
+  <img src="riya.jpeg" class="avatar">
+   <div class="hero-text">
+      <p>We are so excited you are here! Let’s start this magical adventure together.</p>
+
+      <p>Riya has a big problem today! She has a school project to finish…  
+      but she doesn’t know where to start. She feels confused and worried.</p>
+
+      <p>But guess what? Her teacher gives her an amazing idea…  
+      and this idea turns into a magical story for you!</p>
+
+      <p>Do you want to know how Riya solves her problem?  
+      Just click the video below and watch the story!</p>
+    </div>
+</div>
+
+<div class="quiz-note">🎯 During the story the video will pause & ask fun questions!</div>
+
+<p>Click the video below and enjoy the story 🎉</p>
+
+<!-- 🎥 STORY VIDEO -->
+<div id="player-wrapper">
+  <video id="storyVideo" controls playsinline preload="auto" controlsList="nofullscreen nodownload noplaybackrate">
+  
+    <source
+      src="https://res.cloudinary.com/dqyznfaep/video/upload/v1766103486/SamdruManthan_digital_2_fubqnl.mp4"
+      type="video/mp4">
+  </video>
+</div>
+
+<!-- ❓ QUESTION OVERLAY -->
+<div id="overlay">
+  <div id="question-box">
+    <div id="question-text"></div>
+    <button class="opt-btn" id="btnA"></button>
+    <button class="opt-btn" id="btnB"></button>
+    <button class="opt-btn" id="btnC"></button>
+    <div id="wrong-msg">Oops! Try again 😊</div>
+  </div>
+</div>
+
+
+<!-- 🏆 SCORE BOARD -->
+<div id="scoreBoard" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 20000;
+">
+  <div style="
+    background: #fff3d9;
+    padding: 30px;
+    border-radius: 20px;
+    border: 4px solid #ff8c00;
+    width: 340px;
+    text-align: center;
+  ">
+    <h2>🌟 Great job, kid!</h2>
+
+    <p id="scoreText" style="font-size:18px; margin: 10px 0;"></p>
+
+    <p style="font-size:14px; margin: 12px 0;">
+      👨‍👩‍👧 Parents can download a detailed learning report below.
+    </p>
+
+   <button
+  onclick="generatePDFReport(questionReport, score, questions.length)"
+  style="
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #ff8c00;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+  "
+>
+  📄 View & Download Report (PDF)
+</button>
+
+
+    <button onclick="closeScoreBoard()" style="
+      padding:8px 14px;
+      border:none;
+      border-radius:10px;
+      background:#ccc;
+      font-size:14px;
+      cursor:pointer;
+      margin-top:14px;
+      width:100%;
+    ">
+      ❌ Close
+    </button>
+  </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="pdfReport.js"></script>
+
+<script>
+const storyVideo = document.getElementById("storyVideo");
+const wrapper = document.getElementById("player-wrapper");
+const wrongMsg = document.getElementById("wrong-msg");
+
+let currentQuestionIndex = 0;
+let questionActive = false;
+let score = 0;
+let questionReport = [];
+
+const questions = [
+
+{
+    time: 98.5,
+    text: "When the gods and demons churned the great ocean (Samudra Manthan), what very precious thing did they want to get?",
+    options: {
+      A: "1. Amrut (nectar of immortality)",
+      B: "2. Gold coins",
+      C: "3. A magic sword"
+    },
+    correct: "A"
+  },
+  
+  {
+    time: 119.5,
+    text: "In Riya’s case, what was the precious thing for which they should come together?",
+    options: { A: "1. To Fight", B: "2. To Win Science Project", C: "3. To become Friends" },
+    correct: "B"
+  },
+  {
+    time: 196.5,
+    text: "What was the name of Lord Vishnu’s first avatar?",
+    options: { A: "1. Shree Ram", B: "2. Narsimha", C: "3. Kurma" },
+    correct: "C"
+  },
+   {
+    time: 239.5,
+    text: "Because Lord Mahadev held the poison in his throat and his neck turned blue, what name do we call him by?",
+    options: { A: "1. Neelkanth", B: "2. Vishwajeet", C: "2. Trinetra" },
+    correct: "A"
+  }
+  
+];
+
+storyVideo.addEventListener("play", () => {
+  wrapper.classList.add("fullscreen");
+  document.body.style.overflow = "hidden";
+});
+
+storyVideo.addEventListener("timeupdate", () => {
+  if (questionActive) return;
+  const q = questions[currentQuestionIndex];
+  if (q && storyVideo.currentTime >= q.time) {
+    showQuestion(q);
+  }
+});
+
+storyVideo.addEventListener("ended", () => {
+  document.getElementById("scoreText").innerText =
+    `You scored ${score} / ${questions.length} ⭐`;
+  document.getElementById("scoreBoard").style.display = "flex";
+});
+
+function showQuestion(q) {
+  questionActive = true;
+  storyVideo.pause();
+  document.getElementById("question-text").innerText = q.text;
+  btnA.innerText = q.options.A;
+  btnB.innerText = q.options.B;
+  btnC.innerText = q.options.C;
+  wrongMsg.style.display = "none";
+  overlay.style.display = "flex";
+
+  questionReport[currentQuestionIndex] = {
+    question: q.text,
+    attempts: 0,
+    firstAttemptCorrect: false
+  };
+}
+
+function checkAnswer(val) {
+  const q = questions[currentQuestionIndex];
+  questionReport[currentQuestionIndex].attempts++;
+
+  if (val === q.correct) {
+    if (questionReport[currentQuestionIndex].attempts === 1) {
+      score++;
+      questionReport[currentQuestionIndex].firstAttemptCorrect = true;
+    }
+    overlay.style.display = "none";
+    questionActive = false;
+    currentQuestionIndex++;
+    storyVideo.play();
+  } else {
+    document.getElementById("wrong-msg").style.display = "block";
+  }
+}
+
+btnA.onclick = () => checkAnswer("A");
+btnB.onclick = () => checkAnswer("B");
+btnC.onclick = () => checkAnswer("C");
+
+function closeScoreBoard() {
+  document.getElementById("scoreBoard").style.display = "none";
+  wrapper.classList.remove("fullscreen");
+  document.body.style.overflow = "";
+}
+
+function enterFakeFullscreen() {
+  wrapper.classList.add("fullscreen");
+  document.body.style.overflow = "hidden";
+}
+
+function exitFakeFullscreen() {
+  wrapper.classList.remove("fullscreen");
+  document.body.style.overflow = "";
+}
+
+storyVideo.addEventListener("play", enterFakeFullscreen);
+storyVideo.addEventListener("ended", exitFakeFullscreen);
+
+
+const video = document.getElementById("storyVideo");
+
+let maxWatchedTime = 0;
+
+// Track natural progress
+video.addEventListener("timeupdate", () => {
+  if (!video.seeking && !questionActive) {
+    maxWatchedTime = Math.max(maxWatchedTime, video.currentTime);
+  }
+});
+
+// Block forward seek, allow rewind
+video.addEventListener("seeking", () => {
+  if (video.currentTime > maxWatchedTime + 0.3) {
+    video.currentTime = maxWatchedTime;
+    showMessage("Let’s not skip 😊 You’re doing great!");
+  }
+});
+
+function showMessage(text) {
+  const msg = document.getElementById("kidMessage");
+  msg.innerText = text;
+  msg.style.opacity = "1";
+
+  clearTimeout(msg.hideTimer);
+  msg.hideTimer = setTimeout(() => {
+    msg.style.opacity = "0";
+  }, 2000);
+}
+
+
+
+</script>
+<div id="kidMessage"></div>
+
+</body>
+</html>
