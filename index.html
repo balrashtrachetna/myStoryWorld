@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Story World</title>
+
+<style>
+:root {
+  --primary: #c65a1e;
+  --secondary: #fff3dc;
+  --dark: #5a2d0c;
+  --light: #fffaf2;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(#fff6e5, #ffe8c2);
+  color: var(--dark);
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 30px 20px 10px;
+}
+
+header h1 {
+  font-size: 36px;
+  margin-bottom: 6px;
+}
+
+header p {
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px auto 20px;
+}
+
+.tab-btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: #ffe4b8;
+  color: var(--dark);
+  transition: all 0.3s;
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Tab content */
+.tab-content {
+  display: none;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Story Cards */
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 24px;
+}
+
+.story-card {
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.15);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(198,90,30,0.4);
+}
+
+.story-card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* or 4 / 3 */
+  object-fit: cover;
+  object-position: center;
+  border-radius: 16px 16px 0 0;
+}
+
+
+.story-card img {
+  transition: transform 0.4s ease;
+}
+
+.story-card:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 640px) {
+  .story-card img {
+    height: 150px;
+  }
+}
+
+
+.story-body {
+  padding: 16px;
+  text-align: center;
+}
+
+.story-body h3 {
+  margin: 8px 0 4px;
+  font-size: 18px;
+}
+
+.story-body p {
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+.story-body button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Activities */
+.activity-box {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+}
+
+.activity-box h3 {
+  margin-top: 0;
+}
+
+/* Progress */
+.progress-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #ffe4b8;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
+.story-card.clicked {
+  transform: scale(1.08);
+  transition: transform 0.3s ease;
+}
+
+.info-message {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff8ef;
+  color: #6b3f1d;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.info-message.show {
+  opacity: 1;
+}
+
+.story-card.unavailable button {
+  background: #e0d6c8;
+  color: #7a5a3a;
+  cursor: not-allowed;
+}
+
+.story-card {
+  position: relative;
+}
+
+.card-message {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff8ef;
+  color: #6b3f1d;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  animation: fadeUp 0.3s ease;
+  white-space: nowrap;
+}
+
+/* Section Wrapper */
+.story-section {
+  margin: 40px auto;
+  max-width: 1100px;
+  padding: 0 20px;
+}
+
+/* Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff3dc;
+  border-radius: 12px;
+  padding: 15px 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.section-header h2 {
+  margin: 0;
+  color: #5a2d0c;
+  font-size: 1.4rem;
+}
+
+.section-header span {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Grid */
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Collapsed state */
+.story-grid.collapsed {
+  display: none;
+}
+
+/* Story Card */
+.story-card {
+  background: #fffaf2;
+  border-radius: 16px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.story-card img {
+  width: 100%;
+  border-radius: 12px;
+  height: 160px;
+  object-fit: cover;
+}
+
+.story-card h3 {
+  margin: 12px 0 6px;
+  color: #5a2d0c;
+}
+
+.story-card p {
+  font-size: 0.95rem;
+  color: #7a4a2d;
+}
+
+.story-card button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #c65a1e;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🌟 My Story World 🌟</h1>
+  <p>Stories • Values • Activities • Growth</p>
+</header>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="openTab('stories')">📖 Stories</button>
+  <button class="tab-btn" onclick="openTab('activities')">🖍 Activities</button>
+ <!-- <button class="tab-btn" onclick="openTab('progress')">🌱 Progress</button> -->
+</div>
+
+<!-- STORIES TAB -->
+<section id="stories" class="tab-content active">
+ <div id="infoMessage" class="info-message">
+  More stories will open gradually.
+</div>
+  <div class="story-grid">
+
+
+   <a href="stories/samudra_manthan/samudra-manthan.html" class="story-link">
+  <div class="story-card" onclick="openStory(event, this)">
+    <img src="images/samudra-manthan.jpg" alt="Samudra Manthan Story">
+
+    <div class="story-body">
+      <h3>Samudra Manthan</h3>
+      <p>Value: Teamwork & Patience</p>
+      <button type="button">Enter Story World</button>
+    </div>
+  </div>
+</a>
+
+
+ <div class="story-card unavailable" onclick="showMessage(event)">
+  <img src="images/krishna-sudama.png" alt="Krishna & Sudama">
+
+  <div class="story-body">
+    <h3>Krishna & Sudama</h3>
+    <p>Value: Friendship & Gratitude</p>
+    <button type="button" class="coming-soon-btn">Coming Soon</button>
+  </div>
+</div>
+
+
+
+ <div class="story-card unavailable" onclick="showMessage(event)">
+      <img src="images/ganpati.png" alt="">
+      <div class="story-body">
+        <h3>Ganpati Bappa</h3>
+        <p>Value: Respect & Wisdom</p>
+       <button type="button" class="coming-soon-btn">Coming Soon</button>
+      </div>
+    </div>
+
+  </div> 
+  
+  <section class="story-section">
+    <div class="section-header" data-target="festivalStories" onclick="toggleSection(this)">
+      <h2>🎉 Festival Stories</h2>
+      <span>+</span>
+    </div>
+
+    <div id="festivalStories" class="story-grid collapsed">
+      <div class="story-card">
+        <img src="images/shiva.png" alt="Mahashivratri Story">
+      <h3>Mahashivratri</h3>
+      <p>Value: Stillness, devotion & inner strength</p>
+       <button type="button" class="coming-soon-btn">Coming Soon</button>
+      </div>
+
+      <div class="story-card">
+        <img src="images/diwali.png" alt="Diwali Story">
+      <h3>Diwali</h3>
+      <p>Value: Light over darkness</p>
+       <button type="button" class="coming-soon-btn">Coming Soon</button>
+      </div>
+
+      <div class="story-card">
+        <img src="images/rama.png" alt="Dussehra Story">
+      <h3>Dussehra</h3>
+      <p>Value: Victory of good over evil</p>
+      <button type="button" class="coming-soon-btn">Coming Soon</button>
+      </div>
+    </div>
+  </section>
+  
+  <section class="story-section">
+    <div class="section-header"data-target="epicStories" onclick="toggleSection(this)">
+      <h2>🏛 Epic Stories</h2>
+      <span>+</span>
+    </div>
+
+    <div id="epicStories" class="story-grid collapsed">
+      <div class="story-card">
+        <img src="images/vanwas.jpg" alt="Lord Rama Keeps His Promise">
+     <h3>Lord Rama Keeps His Promise</h3>
+       <p>Value: Duty & keeping one’s word</p>
+       <button type="button" class="coming-soon-btn">Coming Soon</button>
+      </div>
+
+      <div class="story-card">
+        <img src="images/krishna_lift.png" alt="Krishna Keeps his Promise">
+      <h3>Krishna Lifts Govardhan Parvat</h3>
+      <p>Value: Courage • Protection • Faith</p>
+       <button type="button" class="coming-soon-btn">Coming Soon</button>
+      </div>
+
+      <div class="story-card">
+        <img src="images/arjuna.jpg" alt="When Arjuna Felt Confused">
+       <h3>When Arjuna Felt Confused</h3>
+       <p>Value: Seeking guidance & clarity</p>
+      <button type="button" class="coming-soon-btn">Coming Soon</button>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+
+<!-- Festival Stories Section -->
+
+
+<!-- ACTIVITIES TAB -->
+<section id="activities" class="tab-content">
+  <div class="activity-box">
+    <h3>✏ 5-Day Value Activities</h3>
+    <p>
+      Each story includes printable worksheets designed to help children
+      think, draw, imagine, and apply the value in daily life.
+    </p>
+  </div>
+
+  <div class="activity-box">
+    <h3>🧠 Reflection Questions</h3>
+    <p>
+      Gentle thinking questions help children pause, reflect,
+      and understand the message deeply.
+    </p>
+  </div>
+</section>
+
+<!-- PROGRESS TAB -->
+<section id="progress" class="tab-content">
+  <div class="progress-card">
+    <h3>🌱 Your Child’s Journey</h3>
+    <p>Stories completed: <strong>1 / 3</strong></p>
+    <p>Values learned: <strong>Teamwork</strong></p>
+    <div class="badge">⭐ Culture Explorer</div>
+  </div>
+</section>
+
+
+
+
+
+<script>
+function openTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function openStory(e, card) {
+  e.preventDefault(); // stop immediate navigation
+
+  card.classList.add("clicked");
+  // optional sound
+  // document.getElementById("clickSound").play();
+
+  setTimeout(() => {
+    window.location.href = card.closest('a').href;
+  }, 300);
+}
+
+function showMessage(e) {
+  e.preventDefault();
+
+  const card = e.currentTarget;
+
+  // remove old bubble if any
+  const oldBubble = card.querySelector('.card-message');
+  if (oldBubble) oldBubble.remove();
+
+  // create message bubble
+  const bubble = document.createElement('div');
+  bubble.className = 'card-message';
+  bubble.innerText = 'More stories will open gradually';
+
+  card.appendChild(bubble);
+
+  // auto remove
+  setTimeout(() => {
+    bubble.remove();
+  }, 2000);
+}
+
+function toggleSection(header) {
+  const targetId = header.dataset.target;
+  const section = document.getElementById(targetId);
+  const icon = header.querySelector("span");
+
+  section.classList.toggle("collapsed");
+  icon.textContent = section.classList.contains("collapsed") ? "+" : "–";
+}
+
+</script>
+
+</body>
+</html>
